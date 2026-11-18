@@ -1,0 +1,216 @@
+@import 'variables';
+
+.app-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: $sidebar-width;
+  background-color: #0F2A32; // Deep dark teal foundation matching Dastone dark sidebar
+  color: #C3D0D4;
+  z-index: 1040;
+  transition: width 220ms ease, transform 220ms ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
+
+  &.collapsed {
+    width: $sidebar-collapsed-width;
+
+    .sidebar-brand-text,
+    .nav-category-title,
+    .nav-link-text,
+    .nav-link-badge,
+    .sidebar-footer-card {
+      display: none !important;
+    }
+
+    .sidebar-brand {
+      justify-content: center;
+      padding: 0;
+    }
+
+    .nav-link {
+      justify-content: center;
+      padding: 11px 0;
+      margin: 2px 8px;
+    }
+
+    .sidebar-nav-item {
+      text-align: center;
+    }
+  }
+
+  .sidebar-brand {
+    height: $header-height;
+    display: flex;
+    align-items: center;
+    padding: 0 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    text-decoration: none;
+    gap: 0.75rem;
+
+    .sidebar-brand-logo {
+      height: 38px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .sidebar-brand-text {
+      display: flex;
+      flex-direction: column;
+
+      .brand-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        color: #FFFFFF;
+        line-height: 1.2;
+      }
+
+      .brand-subtitle {
+        font-size: 0.68rem;
+        color: $accent-golden-yellow;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+      }
+    }
+  }
+
+  .sidebar-menu-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0.75rem 0;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+  }
+
+  .nav-category-title {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #6C8B95;
+    padding: 0.85rem 1.25rem 0.35rem 1.25rem;
+  }
+
+  .sidebar-nav-item {
+    margin: 2px 10px;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    color: #A9BFC6;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.825rem;
+    font-weight: 500;
+    transition: all 180ms ease;
+    gap: 10px;
+
+    .nav-link-icon {
+      flex-shrink: 0;
+      color: #7B9DA8;
+      transition: color 180ms ease;
+    }
+
+    .nav-link-text {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-link-badge {
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 10px;
+    }
+
+    &:hover {
+      color: #FFFFFF;
+      background-color: rgba(255, 255, 255, 0.06);
+
+      .nav-link-icon {
+        color: $accent-golden-yellow;
+      }
+    }
+
+    &.active {
+      color: #FFFFFF;
+      background: linear-gradient(90deg, #173F4A 0%, #20505E 100%);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      font-weight: 600;
+
+      .nav-link-icon {
+        color: $accent-golden-yellow;
+      }
+    }
+  }
+
+  .sidebar-footer-card {
+    margin: 0.75rem 1rem 1rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 0.75rem;
+
+    .footer-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      background-color: rgba(242, 207, 114, 0.2);
+      color: $accent-golden-yellow;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .footer-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin-bottom: 2px;
+    }
+
+    .footer-desc {
+      font-size: 0.7rem;
+      color: #8CAAB2;
+      margin-bottom: 6px;
+    }
+  }
+}
+
+// Mobile sidebar overlay & drawer
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 42, 50, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 1035;
+}
+
+@media (max-width: 991.98px) {
+  .app-sidebar {
+    transform: translateX(-100%);
+
+    &.mobile-open {
+      transform: translateX(0);
+    }
+  }
+
+  .sidebar-overlay.active {
+    display: block;
+  }
+}
+

@@ -1,0 +1,204 @@
+@import 'variables';
+
+.app-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: $sidebar-width;
+  height: $header-height;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid $border-color;
+  z-index: 1020;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  transition: left 220ms ease;
+  box-shadow: 0 1px 4px rgba(23, 63, 74, 0.03);
+
+  &.sidebar-collapsed {
+    left: $sidebar-collapsed-width;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .sidebar-toggle-btn {
+      background: none;
+      border: 1px solid $border-color;
+      border-radius: 6px;
+      color: $secondary-text;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 180ms ease;
+
+      &:hover {
+        background-color: #F1F5F9;
+        color: $primary-text;
+        border-color: #CBD5E1;
+      }
+    }
+
+    .society-selector {
+      position: relative;
+
+      .society-dropdown-btn {
+        background: #F8FAFC;
+        border: 1px solid $border-color;
+        border-radius: 6px;
+        padding: 6px 12px;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: $primary-dark-teal;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: all 180ms ease;
+
+        &:hover {
+          background-color: #F1F5F9;
+          border-color: #CBD5E1;
+        }
+      }
+    }
+
+    .header-search {
+      position: relative;
+      width: 260px;
+
+      .search-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94A3B8;
+        pointer-events: none;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 6px 32px 6px 32px;
+        font-size: 0.8125rem;
+        background-color: #F8FAFC;
+        border: 1px solid $border-color;
+        border-radius: 6px;
+        outline: none;
+        transition: all 180ms ease;
+
+        &:focus {
+          background-color: #FFFFFF;
+          border-color: $secondary-blue-gray;
+          box-shadow: 0 0 0 3px rgba(87, 131, 145, 0.12);
+        }
+      }
+
+      .search-shortcut {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.65rem;
+        background: #E2E8F0;
+        color: #64748B;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-family: monospace;
+      }
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+
+    .header-action-btn {
+      background: none;
+      border: 1px solid transparent;
+      color: #64748B;
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 180ms ease;
+
+      &:hover {
+        background-color: #F1F5F9;
+        color: $primary-text;
+      }
+
+      .notification-badge {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 8px;
+        height: 8px;
+        background-color: $danger-color;
+        border-radius: 50%;
+        border: 2px solid #FFFFFF;
+      }
+    }
+
+    .user-profile-menu {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 180ms ease;
+
+      &:hover {
+        background-color: #F8FAFC;
+      }
+
+      .user-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid $border-color;
+      }
+
+      .user-info {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+
+        .user-name {
+          font-size: 0.8125rem;
+          font-weight: 600;
+          color: $primary-text;
+        }
+
+        .user-role {
+          font-size: 0.6875rem;
+          color: $secondary-text;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 991.98px) {
+  .app-header {
+    left: 0 !important;
+    padding: 0 1rem;
+
+    .header-search {
+      display: none;
+    }
+  }
+}
+

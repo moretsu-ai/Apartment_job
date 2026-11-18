@@ -1,0 +1,93 @@
+// Animations and Transitions (150ms - 250ms standard)
+$transition-speed: 200ms;
+$transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.page-entrance {
+  animation: fadeIn $transition-speed $transition-timing forwards;
+}
+
+.modal-entrance {
+  animation: scaleIn $transition-speed $transition-timing forwards;
+}
+
+.dropdown-entrance {
+  animation: slideDown $transition-speed $transition-timing forwards;
+}
+
+.card-hover-effect {
+  transition: transform $transition-speed $transition-timing, box-shadow $transition-speed $transition-timing;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(23, 63, 74, 0.08) !important;
+  }
+}
+
+.skeleton-loading {
+  background: linear-gradient(90deg, #f0f3f6 25%, #e6ebf0 50%, #f0f3f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+// Respect reduced motion accessibility
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

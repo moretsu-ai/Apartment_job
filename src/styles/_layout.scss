@@ -1,0 +1,299 @@
+@import 'variables';
+
+.main-content {
+  margin-left: $sidebar-width;
+  margin-top: $header-height;
+  padding: 1.75rem;
+  min-height: calc(100vh - #{$header-height});
+  transition: margin-left 220ms ease;
+  background-color: $main-bg;
+
+  &.sidebar-collapsed {
+    margin-left: $sidebar-collapsed-width;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .main-content {
+    margin-left: 0 !important;
+    padding: 1rem;
+  }
+}
+
+// Page header
+.page-title-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .page-title-left {
+    .page-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: $primary-text;
+      margin: 0 0 4px 0;
+      letter-spacing: -0.2px;
+    }
+
+    .page-description {
+      font-size: 0.8125rem;
+      color: $secondary-text;
+      margin: 0;
+    }
+
+    .breadcrumb-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: $secondary-text;
+      margin-bottom: 6px;
+
+      a {
+        color: $secondary-blue-gray;
+        text-decoration: none;
+        &:hover {
+          color: $primary-dark-teal;
+          text-decoration: underline;
+        }
+      }
+
+      .separator {
+        color: #94A3B8;
+      }
+
+      .active-crumb {
+        color: $primary-text;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .page-title-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+}
+
+// Cards
+.card {
+  border: 1px solid $border-color;
+  border-radius: 10px;
+  background-color: $card-bg;
+  box-shadow: 0 1px 4px rgba(23, 63, 74, 0.04);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+
+  .card-header {
+    background-color: transparent;
+    border-bottom: 1px solid $border-color;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: $primary-text;
+      margin: 0;
+    }
+
+    .card-subtitle {
+      font-size: 0.75rem;
+      color: $secondary-text;
+    }
+  }
+
+  .card-body {
+    padding: 1.25rem;
+  }
+}
+
+// Stat Card (Dastone style)
+.stat-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1.25rem;
+
+  .stat-info {
+    .stat-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: $secondary-text;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 1.625rem;
+      font-weight: 700;
+      color: $primary-text;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .stat-trend {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+
+      &.positive {
+        color: $success-color;
+      }
+
+      &.negative {
+        color: $danger-color;
+      }
+
+      &.neutral {
+        color: $secondary-blue-gray;
+      }
+    }
+  }
+
+  .stat-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    &.primary {
+      background-color: rgba(23, 63, 74, 0.1);
+      color: $primary-dark-teal;
+    }
+    &.secondary {
+      background-color: rgba(87, 131, 145, 0.12);
+      color: $secondary-blue-gray;
+    }
+    &.accent {
+      background-color: rgba(242, 207, 114, 0.2);
+      color: #B58D20;
+    }
+    &.success {
+      background-color: rgba(22, 163, 74, 0.1);
+      color: $success-color;
+    }
+    &.warning {
+      background-color: rgba(234, 138, 36, 0.1);
+      color: $warning-color;
+    }
+    &.danger {
+      background-color: rgba(220, 38, 38, 0.1);
+      color: $danger-color;
+    }
+    &.info {
+      background-color: rgba(2, 132, 199, 0.1);
+      color: $info-color;
+    }
+  }
+}
+
+// Priority Badges
+.badge-priority-p1 {
+  background-color: rgba(220, 38, 38, 0.12);
+  color: #B91C1C;
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  font-weight: 600;
+}
+.badge-priority-p2 {
+  background-color: rgba(234, 138, 36, 0.12);
+  color: #C26309;
+  border: 1px solid rgba(234, 138, 36, 0.25);
+  font-weight: 600;
+}
+.badge-priority-p3 {
+  background-color: rgba(87, 131, 145, 0.12);
+  color: #38606E;
+  border: 1px solid rgba(87, 131, 145, 0.25);
+  font-weight: 600;
+}
+.badge-priority-p4 {
+  background-color: rgba(100, 116, 139, 0.12);
+  color: #475569;
+  border: 1px solid rgba(100, 116, 139, 0.25);
+  font-weight: 600;
+}
+
+// Status Badges
+.badge-status-active,
+.badge-status-occupied,
+.badge-status-resolved,
+.badge-status-paid {
+  background-color: rgba(22, 163, 74, 0.12);
+  color: #15803D;
+  border: 1px solid rgba(22, 163, 74, 0.25);
+  font-weight: 600;
+}
+
+.badge-status-pending,
+.badge-status-in-progress,
+.badge-status-rented {
+  background-color: rgba(234, 138, 36, 0.12);
+  color: #B45309;
+  border: 1px solid rgba(234, 138, 36, 0.25);
+  font-weight: 600;
+}
+
+.badge-status-overdue,
+.badge-status-expired,
+.badge-status-critical,
+.badge-status-rejected {
+  background-color: rgba(220, 38, 38, 0.12);
+  color: #B91C1C;
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  font-weight: 600;
+}
+
+.badge-status-vacant,
+.badge-status-draft {
+  background-color: rgba(100, 116, 139, 0.12);
+  color: #475569;
+  border: 1px solid rgba(100, 116, 139, 0.25);
+  font-weight: 600;
+}
+
+// Modern tables
+.table-custom {
+  width: 100%;
+  margin-bottom: 0;
+
+  thead th {
+    background-color: #F8FAFC;
+    color: #475569;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid $border-color;
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 0.85rem 1rem;
+    font-size: 0.8125rem;
+    color: $primary-text;
+    border-bottom: 1px solid $border-color;
+    vertical-align: middle;
+  }
+
+  tbody tr {
+    transition: background-color 150ms ease;
+    &:hover {
+      background-color: #F8FAFC;
+    }
+  }
+}
+
