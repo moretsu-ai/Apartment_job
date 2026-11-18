@@ -15,7 +15,6 @@ All screenshots below are captured from the live application running on the loca
 | View | Screenshot |
 | :--- | :--- |
 | **Desktop Login Screen**<br>Apartment Job branding, email/password fields, show/hide password toggle, remember me, and 3 one-click Demo Login buttons | ![Desktop Login](./screenshots/login.png) |
-| **Mobile Login View**<br>Responsive viewport adaptation (375x812) optimized for mobile touch targets and quick tenant/resident sign-in | ![Mobile Login](./screenshots/mobile-login.png) |
 | **Unauthorized Access (403)**<br>Friendly access denied screen triggered when unauthorized roles attempt to access restricted routes | ![Unauthorized Access](./screenshots/unauthorized.png) |
 
 ---
