@@ -12,9 +12,15 @@ import {
   PlusCircle,
   CheckCircle2,
   AlertTriangle,
-  Clock
+  Clock,
+  Shield,
+  KeyRound,
+  Home,
+  Check
 } from 'lucide-react';
 import { mockNotifications } from '@/data/mock';
+import { useAuth } from '@/context/AuthContext';
+import { UserRole } from '@/config/permissions';
 
 interface HeaderProps {
   collapsed: boolean;
@@ -24,6 +30,8 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ collapsed, onToggleSidebar, onToggleMobile }) => {
   const navigate = useNavigate();
+  const { currentUser, loginAsDemo, logout, demoAccounts } = useAuth();
+
   const [showSocietyDropdown, setShowSocietyDropdown] = useState(false);
   const [showNotificationDropdown, setShowNotificationDropdown] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
@@ -61,6 +69,12 @@ export const Header: React.FC<HeaderProps> = ({ collapsed, onToggleSidebar, onTo
     if (searchQuery.trim()) {
       navigate(`/complaints?q=${encodeURIComponent(searchQuery)}`);
     }
+  };
+
+  const getRoleIcon = (role: UserRole) => {
+    if (role === 'admin') return <Shield size={13} className="text-teal-primary" />;
+    if (role === 'tenant') return <KeyRound size={13} className="text-warning" />;
+    return <Home size={13} className="text-success" />;
   };
 
   return (
@@ -231,11 +245,11 @@ export const Header: React.FC<HeaderProps> = ({ collapsed, onToggleSidebar, onTo
             onClick={() => setShowProfileDropdown(!showProfileDropdown)}
           >
             <div className="user-avatar avatar-placeholder bg-teal-light text-teal-primary font-size-13 fw-bold">
-              RS
+              {currentUser?.initials || 'AJ'}
             </div>
             <div className="user-info d-none d-sm-flex">
-              <span className="user-name">Rajesh Sharma</span>
-              <span className="user-role">Managing Committee (Hon. Sec)</span>
+              <span className="user-name">{currentUser?.name || 'Guest User'}</span>
+              <span className="user-role">{currentUser?.roleTitle || 'Not Signed In'}</span>
             </div>
             <ChevronDown size={14} className="text-muted d-none d-sm-inline" />
           </div>
@@ -243,12 +257,62 @@ export const Header: React.FC<HeaderProps> = ({ collapsed, onToggleSidebar, onTo
           {showProfileDropdown && (
             <div
               className="dropdown-menu dropdown-menu-end show shadow dropdown-entrance p-2"
-              style={{ position: 'absolute', top: '100%', right: 0, minWidth: '220px', zIndex: 1050 }}
+              style={{ position: 'absolute', top: '100%', right: 0, minWidth: '260px', zIndex: 1050 }}
             >
-              <div className="px-3 py-2 border-bottom mb-1">
-                <div className="fw-bold font-size-13 text-dark">Rajesh Sharma</div>
-                <div className="text-muted font-size-11">Apt A-101 • Secretary</div>
+              {currentUser ? (
+                <div className="px-3 py-2 border-bottom mb-2 bg-light rounded">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold font-size-13 text-dark">{currentUser.name}</span>
+                    <span className="badge bg-teal-primary text-white font-size-10">
+                      {currentUser.designation}
+                    </span>
+                  </div>
+                  <div className="text-muted font-size-11">
+                    Flat {currentUser.apartmentNumber} • {currentUser.block}
+                  </div>
+                  <div className="text-muted font-size-11 font-monospace mt-1">
+                    {currentUser.email}
+                  </div>
+                </div>
+              ) : (
+                <div className="px-3 py-2 border-bottom mb-2 bg-light rounded">
+                  <span className="fw-bold font-size-13 text-dark">Not signed in</span>
+                </div>
+              )}
+
+              {/* Demo Account Quick Switcher */}
+              <div className="px-2 py-1 text-xs text-muted fw-bold text-uppercase">
+                Switch Demo User:
               </div>
+              <div className="d-flex flex-column gap-1 mb-2">
+                {(['admin', 'tenant', 'resident'] as UserRole[]).map((r) => {
+                  const demo = demoAccounts[r];
+                  const isActive = currentUser?.role === r;
+                  return (
+                    <button
+                      key={r}
+                      type="button"
+                      className={`btn btn-sm text-start py-1 px-2 d-flex align-items-center justify-content-between rounded ${
+                        isActive ? 'bg-teal-light text-teal-primary fw-bold' : 'btn-light text-dark'
+                      }`}
+                      onClick={() => {
+                        loginAsDemo(r);
+                        setShowProfileDropdown(false);
+                      }}
+                    >
+                      <div className="d-flex align-items-center gap-2 font-size-12">
+                        {getRoleIcon(r)}
+                        <span>{demo.credentials.label}</span>
+                        <span className="text-muted font-size-10">({demo.profile.apartmentNumber})</span>
+                      </div>
+                      {isActive && <Check size={13} className="text-teal-primary" />}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="dropdown-divider my-1"></div>
+
               <button
                 type="button"
                 className="dropdown-item rounded py-2 d-flex align-items-center gap-2 font-size-13"
@@ -257,7 +321,7 @@ export const Header: React.FC<HeaderProps> = ({ collapsed, onToggleSidebar, onTo
                   navigate('/residents');
                 }}
               >
-                <User size={15} /> My Profile
+                <User size={15} /> My Resident Profile
               </button>
               <button
                 type="button"
@@ -275,6 +339,7 @@ export const Header: React.FC<HeaderProps> = ({ collapsed, onToggleSidebar, onTo
                 className="dropdown-item rounded py-2 d-flex align-items-center gap-2 font-size-13 text-danger"
                 onClick={() => {
                   setShowProfileDropdown(false);
+                  logout();
                   navigate('/login');
                 }}
               >
@@ -287,4 +352,3 @@ export const Header: React.FC<HeaderProps> = ({ collapsed, onToggleSidebar, onTo
     </header>
   );
 };
-

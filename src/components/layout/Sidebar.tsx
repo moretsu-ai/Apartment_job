@@ -32,6 +32,8 @@ import {
   ChevronRight
 } from 'lucide-react';
 import logoImg from '@/assets/logo/logo.png';
+import { useAuth } from '@/context/AuthContext';
+import { hasRouteAccess } from '@/config/permissions';
 
 interface SidebarProps {
   collapsed: boolean;
@@ -55,6 +57,8 @@ interface NavSection {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ collapsed, mobileOpen, onCloseMobile }) => {
+  const { currentUser } = useAuth();
+
   const navigationSections: NavSection[] = [
     {
       category: 'OVERVIEW',
@@ -122,6 +126,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, mobileOpen, onClose
     },
   ];
 
+  // Filter sections and items strictly based on currentUser.role
+  const filteredSections = navigationSections
+    .map((section) => {
+      // De-duplicate items with same title or path
+      const seen = new Set<string>();
+      const visibleItems = section.items.filter((item) => {
+        if (seen.has(item.title)) return false;
+        seen.add(item.title);
+        return hasRouteAccess(currentUser?.role, item.path);
+      });
+      return {
+        ...section,
+        items: visibleItems,
+      };
+    })
+    .filter((section) => section.items.length > 0);
+
   return (
     <>
       <div
@@ -138,7 +159,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, mobileOpen, onClose
         </NavLink>
 
         <div className="sidebar-menu-wrapper">
-          {navigationSections.map((section, idx) => (
+          {filteredSections.map((section, idx) => (
             <div key={idx} className="nav-section-group">
               <div className="nav-category-title">{section.category}</div>
               {section.items.map((item, itemIdx) => (
@@ -165,13 +186,22 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, mobileOpen, onClose
           ))}
 
           <div className="sidebar-footer-card">
-            <span className="footer-badge">SOCIETY ACTIVE</span>
-            <div className="footer-title">Emerald Heights CHS</div>
-            <div className="footer-desc">224 Flats • 4 Towers</div>
+            <span className="footer-badge">
+              {currentUser?.designation === 'Admin'
+                ? 'SOCIETY ADMIN'
+                : currentUser?.designation === 'Tenant'
+                ? 'VERIFIED TENANT'
+                : 'FLAT OWNER'}
+            </span>
+            <div className="footer-title">
+              {currentUser?.name || 'Emerald Heights CHS'}
+            </div>
+            <div className="footer-desc">
+              Flat {currentUser?.apartmentNumber || 'A-101'} • {currentUser?.block || 'Tower A'}
+            </div>
           </div>
         </div>
       </aside>
     </>
   );
 };
-
